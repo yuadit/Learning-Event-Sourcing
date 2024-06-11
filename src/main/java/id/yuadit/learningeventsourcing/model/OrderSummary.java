@@ -1,12 +1,28 @@
 package id.yuadit.learningeventsourcing.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class OrderSummary {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long orderId;
     private Long customerId;
+
+    @ElementCollection
     private List<String> items;
     private boolean isPaid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getOrderId() {
         return orderId;

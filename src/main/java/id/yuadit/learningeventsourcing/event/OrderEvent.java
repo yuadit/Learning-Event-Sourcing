@@ -23,9 +23,6 @@ public class OrderEvent {
     private OrderEventType eventType;
     private Boolean paid;
 
-    @Transient
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
     public OrderEvent(){
     }
 
@@ -70,12 +67,13 @@ public class OrderEvent {
     }
 
     public List<String> getItemsAsList() {
+        List<String> itemsAsList = new ArrayList<>();
         try {
-            return Arrays.stream(items.split(",")).toList();
+            itemsAsList.addAll(Arrays.stream(items.split(",")).toList());
         } catch (NullPointerException e){
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return itemsAsList;
     }
 
     public OrderEventType getEventType() {
