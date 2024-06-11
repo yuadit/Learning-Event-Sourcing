@@ -1,5 +1,8 @@
-package id.yuadit.learningeventsourcing;
+package id.yuadit.learningeventsourcing.service;
 
+import id.yuadit.learningeventsourcing.event.OrderEvent;
+import id.yuadit.learningeventsourcing.model.Order;
+import id.yuadit.learningeventsourcing.repository.OrderEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
-package id.yuadit.learningeventsourcing;
+package id.yuadit.learningeventsourcing.repository;
 
+import id.yuadit.learningeventsourcing.event.OrderEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

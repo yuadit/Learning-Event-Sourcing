@@ -1,6 +1,7 @@
-package id.yuadit.learningeventsourcing;
+package id.yuadit.learningeventsourcing.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.yuadit.learningeventsourcing.event.OrderEvent;
 
 import java.io.IOException;
 
