@@ -16,12 +16,12 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public void createOrder(@RequestParam String customerId, @RequestParam String items) {
+    public void createOrder(@RequestParam Long customerId, @RequestParam String items) {
         orderService.createOrder(customerId, items);
     }
 
     @PutMapping("/{orderId}")
-    public void updateOrder(@PathVariable Long orderId, @RequestParam String customerId, @RequestParam String items) {
+    public void updateOrder(@PathVariable Long orderId, @RequestParam Long customerId, @RequestParam String items) {
         orderService.updateOrder(orderId, customerId, items);
     }
 

@@ -6,45 +6,69 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class OrderEvent {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId;
-    private Long orderId;
-    private String eventType;
-    private String eventData;
+    private Long id;
+    private UUID eventId;
     private LocalDateTime timestamp;
+    private Long orderId;
+    private Long customerId;
+    private String items;
+    private OrderEventType eventType;
+    private Boolean paid;
 
-    // Constructors, getters, setters
-    public OrderEvent() {}
-
-    public OrderEvent(Long orderId, String eventType, String eventData) {
-        this.orderId = orderId;
-        this.eventType = eventType;
-        this.eventData = eventData;
-        this.timestamp = LocalDateTime.now();
+    public OrderEvent(){
     }
 
-    public Long getEventId() {
+    public OrderEvent(Long orderId, Long customerId, String items, OrderEventType eventType, boolean paid) {
+        this.eventId = UUID.randomUUID();
+        this.timestamp = LocalDateTime.now();
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.items = items;
+        this.eventType = eventType;
+        this.paid = paid;
+    }
+
+    // Additional constructor without `paid` for non-payment events
+    public OrderEvent(Long orderId, Long customerId, String items, OrderEventType eventType) {
+        this(orderId, customerId, items, eventType, false);
+    }
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public UUID getEventId() {
         return eventId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
     public Long getOrderId() {
         return orderId;
     }
 
-    public String getEventType() {
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public OrderEventType getEventType() {
         return eventType;
     }
 
-    public String getEventData() {
-        return eventData;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public boolean isPaid() {
+        return paid;
     }
 }

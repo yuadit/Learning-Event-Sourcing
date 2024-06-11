@@ -17,21 +17,15 @@ public class Order {
     }
 
     public void apply(OrderEvent event) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            switch (event.getEventType()) {
-                case "OrderCreated":
-                case "OrderUpdated":
-                    OrderEventData data = mapper.readValue(event.getEventData(), OrderEventData.class);
-                    this.customerId = data.getCustomerId();
-                    this.items = data.getItems();
-                    break;
-                case "OrderDeleted":
-                    this.deleted = true;
-                    break;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        switch (event.getEventType()) {
+            case ORDER_CREATED:
+            case ORDER_UPDATED:
+                this.customerId = event.getCustomerId();
+                this.items = event.getItems();
+                break;
+            case ORDER_DELETED:
+                this.deleted = true;
+                break;
         }
     }
 
@@ -66,26 +60,5 @@ public class Order {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    static class OrderEventData {
-        private Long customerId;
-        private String items;
-
-        public Long getCustomerId() {
-            return customerId;
-        }
-
-        public void setCustomerId(Long customerId) {
-            this.customerId = customerId;
-        }
-
-        public String getItems() {
-            return items;
-        }
-
-        public void setItems(String items) {
-            this.items = items;
-        }
     }
 }
