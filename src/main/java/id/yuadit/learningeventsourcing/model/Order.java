@@ -10,6 +10,7 @@ public class Order {
     private Long customerId;
     private String items;
     private boolean deleted;
+    private boolean isPaid;
 
     // Constructors, getters, setters
     public Order(Long orderId) {
@@ -25,6 +26,11 @@ public class Order {
                 break;
             case ORDER_DELETED:
                 this.deleted = true;
+                break;
+            case INVOICE_PAID:
+                this.customerId = event.getCustomerId();
+                this.items = event.getItems();
+                this.isPaid = true;
                 break;
         }
     }
@@ -60,5 +66,13 @@ public class Order {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 }

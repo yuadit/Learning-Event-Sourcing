@@ -15,21 +15,36 @@ public class OrderService {
     @Autowired
     private OrderEventRepository eventRepository;
 
-    public void createOrder(Long customerId, String items) {
+    @Autowired
+    private OrderProjectionService projectionService;
+
+    public Long createOrder(Long customerId, String items) {
         Long nextOrderId = getNextOrderId();
         OrderEvent event = new OrderEvent(nextOrderId, customerId, items, OrderEventType.ORDER_CREATED);
         eventRepository.save(event);
+        projectionService.updateProjection(nextOrderId); // Update projection
+        return nextOrderId;
     }
 
     public void updateOrder(Long orderId, Long customerId, String items) {
         OrderEvent event = new OrderEvent(orderId, customerId, items, OrderEventType.ORDER_UPDATED);
         eventRepository.save(event);
+        projectionService.updateProjection(orderId); // Update projection
     }
 
     public void deleteOrder(Long orderId) {
         OrderEvent event = new OrderEvent(orderId, null, null, OrderEventType.ORDER_DELETED);
         eventRepository.save(event);
+        projectionService.updateProjection(orderId); // Update projection
     }
+
+    public void markOrderAsPaid(Long orderId) {
+        OrderEvent lastEvent = eventRepository.findLastEventByOrderId(orderId);
+        OrderEvent event = new OrderEvent(orderId, lastEvent.getCustomerId(), lastEvent.getItems(), OrderEventType.INVOICE_PAID, true);
+        eventRepository.save(event);
+        projectionService.updateProjection(orderId); // Update projection
+    }
+
 
     public List<OrderEvent> getOrderHistory(Long orderId) {
         return eventRepository.findByOrderId(orderId);

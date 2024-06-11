@@ -1,11 +1,13 @@
 package id.yuadit.learningeventsourcing.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +22,9 @@ public class OrderEvent {
     private String items;
     private OrderEventType eventType;
     private Boolean paid;
+
+    @Transient
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public OrderEvent(){
     }
@@ -62,6 +67,15 @@ public class OrderEvent {
 
     public String getItems() {
         return items;
+    }
+
+    public List<String> getItemsAsList() {
+        try {
+            return Arrays.stream(items.split(",")).toList();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public OrderEventType getEventType() {
