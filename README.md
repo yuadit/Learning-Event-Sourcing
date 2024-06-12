@@ -1,7 +1,10 @@
 # Learning-Event-Sourcing
 
-## Components
+## Event Sourcing
 
+**Event Sourcing** is a pattern where state changes are stored as a sequence of events. Instead of storing the current state, you store the history of changes (events) that led to the current state. This can be useful for auditing, debugging, and rebuilding state.
+
+## Components
 ### Events
 
 An **event** is a record of something that happened in the system. Events are the primary source of truth in event sourcing. Instead of storing the current state of an entity, a sequence of events describing the entity's changes over time is stored. The main types of events include:
